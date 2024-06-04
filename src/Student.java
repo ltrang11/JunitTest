@@ -1,2 +1,52 @@
-package PACKAGE_NAME;public class Student {
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Student extends User {
+    private String studentId;
+
+    public Student(String username, String password, String studentId) {
+        super(username, password);
+        this.studentId = studentId;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public List<String> accessCourseMaterial(Course course) {
+        if (course.isEnrolled(this)) {
+            return course.getMaterials();
+        } else {
+            System.out.println("You are not enrolled in this course.");
+            return null;
+        }
+    }
+
+    public void uploadAssignment(Assignment assignment, File file) {
+        assignment.submitAssignment(this, file);
+    }
+
+    public List<Assignment> getSubmittedAssignments(Course course) {
+        List<Assignment> submittedAssignments = new ArrayList<>();
+        for (Assignment assignment : course.getAssignments()) {
+            if (assignment.getSubmission(this) != null) {
+                submittedAssignments.add(assignment);
+            }
+        }
+        return submittedAssignments;
+    }
+
+    public String checkGrades(Course course) {
+        Grade grade = course.getGrade(this);
+        if (grade != null) {
+            return grade.getGrade();
+        } else {
+            return "No grade available for this course.";
+        }
+    }
+
+    public void accessExam(Exam exam) {
+        exam.accessExam(this);
+    }
 }
