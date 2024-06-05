@@ -1,60 +1,38 @@
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+public class CourseTest {
 
-class CourseTest {
-    Course course1;
-    Course course2;
-
-    @BeforeEach
-    void setup() {
-        course1 = new Course("CP1");
-        course2 = new Course("Data Science");
-
+    @Test
+    public void testAddNullStudent() {
+        Course course = new Course("Math");
+        assertThrows(NullPointerException.class, () -> {
+            course.enrollStudent(null);
+        });
     }
 
     @Test
-    void getName() {
+    public void testGetGradeForUnenrolledStudent() {
+        Course course = new Course("Math");
+        Student student = new Student("student1", "password1", "S123");
+        assertNull(course.getGrade(student));
     }
 
     @Test
-    void enrollStudent() {
+    public void testAddNullContent() {
+        Course course = new Course("Math");
+        assertThrows(NullPointerException.class, () -> {
+            course.addContent(null);
+        });
     }
 
     @Test
-    void isEnrolled() {
-    }
-
-    @Test
-    void addContent() {
-    }
-
-    @Test
-    void getMaterials() {
-    }
-
-    @Test
-    void getGrade() {
-    }
-
-    @Test
-    void addGrade() {
-    }
-
-    @Test
-    void addAssignment() {
-    }
-
-    @Test
-    void getAssignments() {
-    }
-
-    @Test
-    void addExam() {
-    }
-
-    @Test
-    void getExams() {
+    public void testEnrollStudentTwice() {
+        Course course = new Course("Math");
+        Student student = new Student("student1", "password1", "S123");
+        course.enrollStudent(student);
+        assertThrows(IllegalArgumentException.class, () -> {
+            course.enrollStudent(student);
+        });
     }
 }

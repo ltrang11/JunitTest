@@ -1,20 +1,31 @@
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class SessionManagerTest {
-    public static void main(String[] args) throws InterruptedException {
+
+    @Test
+    public void testLoginNullUser() {
         SessionManager sessionManager = new SessionManager();
-        User user = new User("username", "password");
-
-        // Test 1: Null User when Logging In
-        try {
+        assertThrows(NullPointerException.class, () -> {
             sessionManager.login(null);
-        } catch (NullPointerException e) {
-            System.out.println("Caught NullPointerException as expected.");
-        }
+        });
+    }
 
-        // Test 2: Timeout Handling when User Not Active
+    @Test
+    public void testLogoutWithoutLogin() {
+        SessionManager sessionManager = new SessionManager();
+        assertDoesNotThrow(() -> {
+            sessionManager.logout();
+        });
+    }
+
+    @Test
+    public void testLoginTwice() {
+        SessionManager sessionManager = new SessionManager();
+        User user = new User("user1", "pass1");
         sessionManager.login(user);
-        Thread.sleep(601000); // Sleep for just over 10 minutes
-        boolean isAuthenticated = sessionManager.isAuthenticated(user);
-        System.out.println("User authentication status after timeout: " + isAuthenticated);
+        assertThrows(IllegalStateException.class, () -> {
+            sessionManager.login(user);
+        });
     }
 }
