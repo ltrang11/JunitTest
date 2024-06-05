@@ -46,7 +46,11 @@ public class Student extends User {
         }
     }
 
-    public void accessExam(Exam exam) {
-        exam.accessExam(this);
+    public String accessExam(Exam exam) {
+        if (exam.getCourse().isEnrolled(this)) {
+            return "Access granted to " + exam.getTitle();
+        } else {
+            return "Access denied to " + exam.getTitle();
+        }
     }
 }

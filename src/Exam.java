@@ -15,15 +15,11 @@ public class Exam {
         return title;
     }
 
-    public LocalDate getExamDate() {
-        return examDate;
+    public Course getCourse() {
+        return course;
     }
 
-    public void accessExam(Student student) {
-        if (course.isEnrolled(student)) {
-            System.out.println("Accessing exam: " + title);
-        } else {
-            System.out.println("You are not enrolled in this course.");
-        }
+    public LocalDate getExamDate() {
+        return examDate;
     }
 }

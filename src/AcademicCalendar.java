@@ -1,60 +1,51 @@
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AcademicCalendar {
-    public List<Assignment> getAssignments(Course course, String period) {
-        LocalDate currentDate = LocalDate.now();
-        LocalDate endDate = null;
-        switch (period) {
+
+    public String displaySchedule(Course course, String period) {
+        LocalDate now = LocalDate.now();
+        LocalDate endDate;
+
+        switch (period.toLowerCase()) {
             case "week":
-                endDate = currentDate.plusWeeks(1);
+                endDate = now.plusWeeks(1);
                 break;
             case "month":
-                endDate = currentDate.plusMonths(1);
+                endDate = now.plusMonths(1);
                 break;
             case "semester":
-                endDate = currentDate.plusMonths(6);
+                endDate = now.plusMonths(6);
                 break;
+            default:
+                return "Invalid period. Please choose 'week', 'month', or 'semester'.";
         }
 
-        List<Assignment> filteredAssignments = new ArrayList<>();
-        for (Assignment assignment : course.getAssignments()) {
-            if (!assignment.getDueDate().isBefore(currentDate) && assignment.getDueDate().isBefore(endDate)) {
-                filteredAssignments.add(assignment);
-            }
-        }
+        List<Assignment> assignments = course.getAssignments().stream()
+                .filter(a -> !a.getDueDate().isBefore(now) && !a.getDueDate().isAfter(endDate))
+                .collect(Collectors.toList());
 
-        return filteredAssignments;
-    }
+        List<Exam> exams = course.getExams().stream()
+                .filter(e -> !e.getExamDate().isBefore(now) && !e.getExamDate().isAfter(endDate))
+                .collect(Collectors.toList());
 
-    public void displaySchedule(Course course, String period) {
-        List<Assignment> assignments = getAssignments(course, period);
-        System.out.println("Assignments due in the next " + period + ":");
+        StringBuilder schedule = new StringBuilder("Assignments:\n");
         for (Assignment assignment : assignments) {
-            System.out.println(assignment.getTitle() + " - Due: " + assignment.getDueDate());
+            schedule.append(assignment.getTitle())
+                    .append(" - Due: ")
+                    .append(assignment.getDueDate())
+                    .append("\n");
         }
 
-        List<Exam> exams = course.getExams();
-        LocalDate currentDate = LocalDate.now();
-        LocalDate endDate = null;
-        switch (period) {
-            case "week":
-                endDate = currentDate.plusWeeks(1);
-                break;
-            case "month":
-                endDate = currentDate.plusMonths(1);
-                break;
-            case "semester":
-                endDate = currentDate.plusMonths(6);
-                break;
-        }
-
-        System.out.println("Exams scheduled in the next " + period + ":");
+        schedule.append("Exams:\n");
         for (Exam exam : exams) {
-            if (!exam.getExamDate().isBefore(currentDate) && exam.getExamDate().isBefore(endDate)) {
-                System.out.println(exam.getTitle() + " - Scheduled: " + exam.getExamDate());
-            }
+            schedule.append(exam.getTitle())
+                    .append(" - Date: ")
+                    .append(exam.getExamDate())
+                    .append("\n");
         }
+
+        return schedule.toString();
     }
 }
