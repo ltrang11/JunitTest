@@ -73,7 +73,7 @@ class StudentTest {
      * => Test case fail because this function don't check enrollment.
      */
     @Test
-    void uploadAssignmentWithInenrolledStudent() {
+    void uploadAssignmentWithUnenrolledStudent() {
         student2.uploadAssignment(assignment1, file);
         assertNull(assignment1.getSubmission(student2));
     }
@@ -94,7 +94,7 @@ class StudentTest {
      * => Test case fail because this function don't check enrollment.
      */
     @Test
-    void checkGradesInerollesStudent() {
+    void checkGradesUnerollesStudent() {
         course1.addGrade(student2, new Grade("D"));
         assertEquals("You are not enrolled in this course.", student2.checkGrades(course1));
 

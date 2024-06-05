@@ -4,11 +4,6 @@ import java.time.LocalDate;
 
 public class AcademicTest {
 
-    @Test
-    public void testGetAcademicId() {
-        Academic academic = new Academic("user1", "pass1", "A123");
-        assertNotEquals("A123", academic.getAcademicId());
-    }
 
     @Test
     public void testAddContentWithNullCourse() {

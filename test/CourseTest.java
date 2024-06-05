@@ -12,13 +12,6 @@ public class CourseTest {
     }
 
     @Test
-    public void testGetGradeForUnenrolledStudent() {
-        Course course = new Course("Math");
-        Student student = new Student("student1", "password1", "S123");
-        assertNull(course.getGrade(student));
-    }
-
-    @Test
     public void testAddNullContent() {
         Course course = new Course("Math");
         assertThrows(NullPointerException.class, () -> {

@@ -2,6 +2,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 public class SessionManagerTest {
+    User user = new User("Alex", "123");
 
     @Test
     public void testLoginNullUser() {
@@ -15,7 +16,7 @@ public class SessionManagerTest {
     public void testLogoutWithoutLogin() {
         SessionManager sessionManager = new SessionManager();
         assertDoesNotThrow(() -> {
-            sessionManager.logout();
+            sessionManager.logout(user);
         });
     }
 
