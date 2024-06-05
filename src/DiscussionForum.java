@@ -8,9 +8,7 @@ public class DiscussionForum {
         messages.add(user.getUsername() + ": " + message);
     }
 
-    public void displayMessages() {
-        for (String message : messages) {
-            System.out.println(message);
-        }
+    public List<String> displayMessages() {
+        return messages;
     }
 }
