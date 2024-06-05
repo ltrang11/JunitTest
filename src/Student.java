@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Student extends User {
     private String studentId;
+    private List<Course> enrolledCourses = new ArrayList<>();
 
     public Student(String username, String password, String studentId) {
         super(username, password);
@@ -13,7 +14,14 @@ public class Student extends User {
     public String getStudentId() {
         return studentId;
     }
+    public void enrollInCourse(Course course) {
+        enrolledCourses.add(course);
+        course.enrollStudent(this);
+    }
 
+    public List<Course> getEnrolledCourses() {
+        return enrolledCourses;
+    }
     public List<String> accessCourseMaterial(Course course) {
         if (course.isEnrolled(this)) {
             return course.getMaterials();
@@ -52,5 +60,14 @@ public class Student extends User {
         } else {
             return "Access denied to " + exam.getTitle();
         }
+    }
+
+    public String getSchedule(String period, AcademicCalendar calendar) {
+        StringBuilder schedule = new StringBuilder();
+        for (Course course : enrolledCourses) {
+            schedule.append("Course: ").append(course.getName()).append("\n");
+            schedule.append(calendar.displaySchedule(course, period)).append("\n");
+        }
+        return schedule.toString();
     }
 }

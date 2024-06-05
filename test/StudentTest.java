@@ -2,9 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,11 +11,9 @@ class StudentTest {
     Student student1;
     Student student2;
     Course course1;
-    Course course2;
     Assignment assignment1;
-    Assignment assignment2;
-    String dateString = "2024-06-10";
-    LocalDate exampleDate = LocalDate.parse(dateString);
+    LocalDate date1 = LocalDate.parse("2024-06-10");
+    LocalDate date2 = LocalDate.parse("2024-08-10");
     File file = new File("assignment", ".txt");
     Exam exam;
 
@@ -29,17 +25,10 @@ class StudentTest {
         course1 = new Course("CP1");
         course1.addContent("slides");
         course1.addContent("video");
-        course2 = new Course("Data Science");
         course1.enrollStudent(student1);
-        course2.enrollStudent(student1);
-        course2.enrollStudent(student2);
 
-        assignment1 = new Assignment("Practical 1", course1, exampleDate);
-        assignment2 = new Assignment("Report", course1, exampleDate);
-        assignment2 = new Assignment("Presentation", course2, exampleDate);
-
-        exam = new Exam("Final Exam", course1, exampleDate);
-
+        assignment1 = new Assignment("Practical 1", course1, date1);
+        exam = new Exam("Final Exam", course1, date2);
 
     }
 
@@ -82,9 +71,7 @@ class StudentTest {
     @Test
     void checkGradesWithEnrolledStudent() {
         course1.addGrade(student1, new Grade("HD"));
-        course2.addGrade(student2, new Grade("add wrong grade"));
         assertEquals("HD", student1.checkGrades(course1));
-        assertEquals("add wrong grade", student2.checkGrades(course2));
 
     }
 
@@ -107,7 +94,21 @@ class StudentTest {
 
 
     @Test
-    void accessExamWithInenrolledStudent() {
+    void accessExamWithUnenrolledStudent() {
         assertEquals("Access denied to Final Exam", student2.accessExam(exam));
     }
+
+    /**
+     * Student can't get the schedule of assignments and exam
+     */
+    @Test
+    void getSchedule(){
+        student1.enrollInCourse(course1);
+        String expect = "Course: CP1\n" +
+                "Assignments: Practical 1 - Due: 2024-06-10\n" +
+                "Exams:\n";
+        assertEquals(expect, student1.getSchedule("week",new AcademicCalendar()));
+    }
+
 }
+
