@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -34,10 +35,7 @@ class StudentTest {
 
 
     @Test
-    void getStudentId() {
-    }
-
-    @Test
+    @DisplayName("ST01 - Access Course Material" )
     void accessCourseMaterial() {
         String expect = "slides\n" +
                 "video\n";
@@ -51,6 +49,7 @@ class StudentTest {
     }
 
     @Test
+    @DisplayName("ST02 - Upload Assignment With Enrolled Student" )
     void uploadAssignmentWithEnrolledStudent() {
         student1.uploadAssignment(assignment1, file);
         assertNotNull(assignment1.getSubmission(student1));
@@ -62,6 +61,7 @@ class StudentTest {
      * => Test case fail because this function don't check enrollment.
      */
     @Test
+    @DisplayName("ST03 - Upload Assignment With Unenrolled Student" )
     void uploadAssignmentWithUnenrolledStudent() {
         student2.uploadAssignment(assignment1, file);
         assertNull(assignment1.getSubmission(student2));
@@ -69,6 +69,7 @@ class StudentTest {
 
 
     @Test
+    @DisplayName("ST04 - Check Grades With Enrolled Student" )
     void checkGradesWithEnrolledStudent() {
         course1.addGrade(student1, new Grade("HD"));
         assertEquals("HD", student1.checkGrades(course1));
@@ -81,19 +82,22 @@ class StudentTest {
      * => Test case fail because this function don't check enrollment.
      */
     @Test
-    void checkGradesUnerollesStudent() {
+    @DisplayName("ST05 - Check Grades Unerolled Student" )
+    void checkGradesUnerolledStudent() {
         course1.addGrade(student2, new Grade("D"));
         assertEquals("You are not enrolled in this course.", student2.checkGrades(course1));
 
     }
 
     @Test
+    @DisplayName("ST06 - Access Exam With Enrolled Student" )
     void accessExamWithEnrolledStudent() {
         assertEquals("Access granted to Final Exam", student1.accessExam(exam));
     }
 
 
     @Test
+    @DisplayName("ST07 - Access Exam With Unenrolled Student" )
     void accessExamWithUnenrolledStudent() {
         assertEquals("Access denied to Final Exam", student2.accessExam(exam));
     }
@@ -102,6 +106,7 @@ class StudentTest {
      * Student can't get the schedule of assignments and exam
      */
     @Test
+    @DisplayName("ST08 - Student Get Schedule" )
     void getSchedule(){
         student1.enrollInCourse(course1);
         String expect = "Course: CP1\n" +

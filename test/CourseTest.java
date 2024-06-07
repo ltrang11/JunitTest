@@ -1,9 +1,12 @@
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class CourseTest {
 
     @Test
+    @DisplayName("C01 - Add Null Student")
     public void testAddNullStudent() {
         Course course = new Course("Math");
         assertThrows(NullPointerException.class, () -> {
@@ -12,6 +15,7 @@ public class CourseTest {
     }
 
     @Test
+    @DisplayName("C02 - Add Null Content" )
     public void testAddNullContent() {
         Course course = new Course("Math");
         assertThrows(NullPointerException.class, () -> {
@@ -20,6 +24,7 @@ public class CourseTest {
     }
 
     @Test
+    @DisplayName("C03 - Enroll Student Twice" )
     public void testEnrollStudentTwice() {
         Course course = new Course("Math");
         Student student = new Student("student1", "password1", "S123");

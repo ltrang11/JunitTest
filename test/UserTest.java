@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,6 +11,7 @@ class UserTest {
     Course course = new Course("Java");
 
     @Test
+    @DisplayName("U01 - Test Authenticate" )
     void authenticate() {
         assertAll(
                 () -> assertFalse(student1.authenticate("wrong password")),
@@ -27,6 +29,7 @@ class UserTest {
      * After logout, student can still check their grade => Logout function is not work.
      */
     @Test
+    @DisplayName("U02 - Test Logout" )
     void logout() {
         course.addGrade(student1, new Grade("HD"));
         sessionManager.login(student1);

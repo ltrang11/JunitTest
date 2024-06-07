@@ -1,4 +1,6 @@
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.time.LocalDate;
@@ -7,6 +9,7 @@ public class AssignmentTest {
 
 
     @Test
+    @DisplayName("AM01 - Submit Null File" )
     public void testSubmitNullFile() {
         Course course = new Course("Math");
         Assignment assignment = new Assignment("Assignment 1", course, LocalDate.now());
@@ -18,6 +21,7 @@ public class AssignmentTest {
 
 
     @Test
+    @DisplayName("AM02 - Submit Assignment Twice" )
     public void testSubmitAssignmentTwice() {
         Course course = new Course("Math");
         Assignment assignment = new Assignment("Assignment 1", course, LocalDate.now());
